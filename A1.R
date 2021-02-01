@@ -1,5 +1,4 @@
-require("shiny")
+if (!require("shiny")) install.packages("shiny")
 library(shiny)
-
-rm(list=ls())
+rm(list = ls())
 runApp("atv01")
