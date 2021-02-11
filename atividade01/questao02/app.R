@@ -22,13 +22,23 @@ b_results <- function(mat) {
   b_mediam <- median(mat[,ncol(mat) - 1])
   b_sd <- sd(mat[,ncol(mat)])
   tags$div(
-    pre(
-      sprintf('
-                 B médias = %f
-               B medianas = %f
-        B desvios-padrões = %f',
-        b_mean, b_mediam, b_sd)
+    tags$table(
+      tags$tr(
+        tags$td(style = 'text-align: right;padding-right: 5px;',
+                'B médias ='),
+        tags$td(b_mean)
+      ),
+      tags$tr(
+        tags$td(style = 'text-align: right;padding-right: 5px;',
+                'B medianas ='),
+        tags$td(b_mediam)
+      ),
+      tags$tr(
+        tags$td(style = 'text-align: right;padding-right: 5px;',
+                'B desvios-padrões ='),
+        tags$td(b_sd)
       )
+    )
   )
 }
 
@@ -51,7 +61,7 @@ ui <- fluidPage(
     sidebarPanel(
       textInput('vec', h4('Vetor'), "16,145,23,42,10"),
       helpText('(separado por vírgulas)'),
-      numericInput('B', h4('Reamostragem'), value = '6')
+      numericInput('B', h4('Reamostragem'), value = '6'),
     ),
     
     mainPanel(
@@ -67,25 +77,20 @@ ui <- fluidPage(
       a('github.com/Durfan/ufsj-estatistica',
         href='https://github.com/Durfan/ufsj-estatistica')
     ),
-    style='margin:10px 10px 20px 10px;'
+    style='margin:10px 10px 20px 10px;position: fixed;bottom: 0;'
   )
 )
 
 server <- function(input, output) {
   
-  dataInput <- reactive({
-    reamostragem(input$vec, input$B)
-  })
+  dataInput <- reactive({reamostragem(input$vec, input$B)})
   
-  output$reamostragem <- renderTable(
-    dataInput(),
-    rownames = T,
-    colnames = T
+  output$reamostragem <- renderTable({dataInput()},
+    hover = T, spacing = 'xs',
+    rownames = T, colnames = T
   )
   
-  output$result <- renderUI({
-    b_results(dataInput())
-  })
+  output$result <- renderUI({b_results(dataInput())})
   
 }
 
