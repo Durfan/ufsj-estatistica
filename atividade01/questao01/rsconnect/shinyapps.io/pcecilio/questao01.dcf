@@ -1,0 +1,12 @@
+name: questao01
+title: questao01
+username:
+account: pcecilio
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3618295
+bundleId: 4207813
+url: https://pcecilio.shinyapps.io/questao01/
+when: 1612999211.78552
+asMultiple: FALSE
+asStatic: FALSE
