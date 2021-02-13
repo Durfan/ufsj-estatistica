@@ -1,9 +1,26 @@
+UPictogram <-function(N, amostra, var=NULL) {
+  # Ugly but Works
+  p1 <- '\U25A1'
+  p2 <- '\U25A0'
+  p3 <- '\U29E0'
+  graph <- rep(p1, N)
+  if (!is.null(var)) {
+    graph[(N-var):N] <- p3
+  }
+  for(i in 1:length(amostra)) {
+    idx = amostra[i]
+    graph[idx] <- p2
+  }
+  graph
+}
+
 simples <- function(N, n) {
   amostra <- sample(N, n, replace = F)
   amostra <- sort(amostra)
   tags$div(
     h3('Amostragem Aleatória Simples'),
-    p(toString(amostra))
+    p(toString(amostra)),
+    p(HTML(UPictogram(N,amostra)))
   )
 }
 
@@ -18,7 +35,8 @@ sistematica <- function(N, n) {
     h3('Amostragem Sistemática'),
     withMathJax(eq),
     hr(),
-    p(toString(amostra))
+    p(toString(amostra)),
+    p(HTML(UPictogram(N,amostra)))
   )
 }
 
@@ -36,6 +54,7 @@ estratificada <- function(N, n, var) {
                 \\approx %d$$',n,var,N,nb)
   amostra_A <- sort(sample(1:Na, na, replace = F))
   amostra_B <- sort(sample(Na:N, nb, replace = F))
+  amostra <- c(amostra_A,amostra_B)
   tags$div(
     h3('Amostragem Estratificada'),
     withMathJax(eq1),
@@ -45,7 +64,8 @@ estratificada <- function(N, n, var) {
     h4('Estrato A'),
     p(toString(amostra_A)),
     h4('Estrato B'),
-    p(toString(amostra_B))
+    p(toString(amostra_B)),
+    p(HTML(UPictogram(N,amostra,var)))
   )
 }
 
