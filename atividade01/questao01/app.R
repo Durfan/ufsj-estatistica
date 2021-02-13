@@ -1,15 +1,16 @@
 UPictogram <-function(N, amostra, var=NULL) {
   # Ugly but Works
-  p1 <- '\U25A1'
-  p2 <- '\U25A0'
-  p3 <- '\U29E0'
-  graph <- rep(p1, N)
-  if (!is.null(var)) {
-    graph[(N-var):N] <- p3
-  }
+  estratificado <- !is.null(var)
+  pic <- c('\U25A1','\U25A0','\U2606','\U2605')
+  graph <- rep(pic[1], N)
+  if (estratificado)
+    graph[(N-var):N] <- pic[3]
   for(i in 1:length(amostra)) {
     idx = amostra[i]
-    graph[idx] <- p2
+    if (estratificado && idx > (N-var))
+      graph[idx] <- pic[4]
+    else
+      graph[idx] <- pic[2]
   }
   graph
 }
@@ -28,6 +29,7 @@ sistematica <- function(N, n) {
   k <- round(N/n)
   amostra <- sample(1:k,1)
   amostra <- amostra + (0:(n-1))*k
+  amostra <- amostra[amostra <= N] # well, its a fix
   amostra <- sort(amostra)
   eq <- sprintf(
     '$$k = \\frac{N}{n} = \\frac{%d}{%d} \\approx %d$$',N,n,k)

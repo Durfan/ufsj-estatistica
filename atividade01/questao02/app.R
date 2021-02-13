@@ -83,14 +83,20 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   
-  dataInput <- reactive({reamostragem(input$vec, input$B)})
+  dataInput <- reactive({
+    reamostragem(input$vec, input$B)
+  })
   
-  output$reamostragem <- renderTable({dataInput()},
-    hover = T, spacing = 'xs',
+  output$reamostragem <- renderTable({
+    dataset <- dataInput()
+    formatC(dataset)
+    }, hover = T, spacing = 'xs',
     rownames = T, colnames = T
   )
   
-  output$result <- renderUI({b_results(dataInput())})
+  output$result <- renderUI({
+    b_results(dataInput())
+  })
   
 }
 
