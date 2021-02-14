@@ -1,13 +1,13 @@
 reamostragem <- function(vec, B) {
   vec <- as.numeric(unlist(strsplit(vec,",")))
-  columns <- length(vec)+3
-  mat_vec <- matrix(nrow = B, ncol = columns)
+  cols <- length(vec)+3
+  mat_vec <- matrix(nrow = B, ncol = cols)
   for(i in 1:B) {
     new_vec <- sample(vec, replace = T)
-    new_vec <- c(new_vec, mean(new_vec))
-    new_vec <- c(new_vec, median(new_vec))
-    new_vec <- c(new_vec, sd(new_vec))
-    mat_vec[i,] <- new_vec
+    ins_vec <- c(new_vec, mean(new_vec))
+    ins_vec <- c(ins_vec, median(new_vec))
+    ins_vec <- c(ins_vec, sd(new_vec))
+    mat_vec[i,] <- ins_vec
   }
   row_foo <- c(
     rep(' ',length(vec)),

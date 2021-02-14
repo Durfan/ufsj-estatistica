@@ -29,7 +29,7 @@ sistematica <- function(N, n) {
   k <- round(N/n)
   amostra <- sample(1:k,1)
   amostra <- amostra + (0:(n-1))*k
-  amostra <- amostra[amostra <= N] # well, its a fix
+  amostra <- amostra[amostra <= N] # bom, its a fix
   amostra <- sort(amostra)
   eq <- sprintf(
     '$$k = \\frac{N}{n} = \\frac{%d}{%d} \\approx %d$$',N,n,k)
