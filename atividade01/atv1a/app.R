@@ -1,3 +1,5 @@
+# Deploy feito em https://pcecilio.shinyapps.io/atv1a/
+
 UPictogram <-function(N, amostra, var=NULL) {
   # Ugly but Works
   estratificado <- !is.null(var)

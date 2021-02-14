@@ -1,3 +1,5 @@
+# Deploy feito em https://pcecilio.shinyapps.io/atv1b/
+
 reamostragem <- function(vec, B) {
   vec <- as.numeric(unlist(strsplit(vec,",")))
   cols <- length(vec)+3

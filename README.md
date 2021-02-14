@@ -8,8 +8,16 @@
 
 #### Questão 1
 
-[pcecilio.shinyapps.io/questao01/](https://pcecilio.shinyapps.io/questao01/)
+[pcecilio.shinyapps.io/atv1a/](https://pcecilio.shinyapps.io/atv1a/)
 
 #### Questão 2
 
-[pcecilio.shinyapps.io/questao02/](https://pcecilio.shinyapps.io/questao02/)
+[pcecilio.shinyapps.io/atv1b/](https://pcecilio.shinyapps.io/atv1b/)
+
+## Atividade 2
+
+:construction: TODO
+
+## Atividade 3
+
+:construction: TODO
