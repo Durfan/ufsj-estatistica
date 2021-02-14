@@ -1,4 +1,4 @@
-# Deploy feito em https://pcecilio.shinyapps.io/atv1a/
+# Deploy feito em https://pcecilio.shinyapps.io/atvividade01/
 
 UPictogram <-function(N, amostra, var=NULL) {
   # Ugly but Works
@@ -73,77 +73,52 @@ estratificada <- function(N, n, var) {
   )
 }
 
-
-ui <- fluidPage(
-
-  fluidRow(
-    img(
-      src='logo_estatistica.png',
-      align='left',
-      style='margin:10px 10px 20px 10px;'),
-    
-    titlePanel(
-      'Questão 1',
-      windowTitle = 'Atividade 1 - Questão 1'
-      ),
-    p('Elementos da população a serem incluídos na amostra.')
-  ),
-  
-  sidebarLayout(
-    sidebarPanel(
-      numericInput('N', h4('População'), value = '211'),
-      numericInput('n', h4('Amostra'), value = '15'),
-      radioButtons(
-        'plano',
-        h4('Plano de Amostragem'),
-        choices = list(
-          'Aleatória Simples' = 1, 
-          'Sistemática' = 2, 
-          'Estratificada' = 3),
-        selected = 1
-      ),
-      conditionalPanel(
-        condition = 'input.plano == 3',
-        numericInput(
-          'var',
-          h4('Variável Estratificadora'),
-          value = '30'
-        ),
-        helpText('Porcentagem sobre a populção para um estrato.')
-      )
-    ),
-
-    mainPanel(
-      htmlOutput('amostra')
-    )
-  ),
-  fluidRow(
-    tags$small('Pablo Cecilio Oliveira 172050108'),
-    tags$br(),
-    tags$small(
-      icon('code-branch'),
-      a(
-        'github.com/Durfan/ufsj-estatistica',
-        href='https://github.com/Durfan/ufsj-estatistica'
-      )
-    ),
-    style='margin:10px 10px 20px 10px;'
+reamostragem <- function(vec, B) {
+  vec <- as.numeric(unlist(strsplit(vec,",")))
+  cols <- length(vec)+3
+  mat_vec <- matrix(nrow = B, ncol = cols)
+  for(i in 1:B) {
+    new_vec <- sample(vec, replace = T)
+    ins_vec <- c(new_vec, mean(new_vec))
+    ins_vec <- c(ins_vec, median(new_vec))
+    ins_vec <- c(ins_vec, sd(new_vec))
+    mat_vec[i,] <- ins_vec
+  }
+  row_foo <- c(
+    rep(' ',length(vec)),
+    'mean','median','sd'
   )
-)
-
-server <- function(input, output) {
-
-  output$amostra <- renderUI({
-    if (input$plano == 1)
-      simples(input$N, input$n)
-    else if (input$plano == 2)
-      sistematica(input$N, input$n)
-    else if (input$plano == 3)
-      estratificada(input$N, input$n, input$var)
-    else
-      HTML('COMO?????')
-  })
-
+  colnames(mat_vec) <- row_foo
+  mat_vec
 }
 
-shinyApp(ui = ui, server = server)
+b_results <- function(mat) {
+  b_mean <- mean(mat[,ncol(mat) - 2])
+  b_mediam <- median(mat[,ncol(mat) - 1])
+  b_sd <- sd(mat[,ncol(mat)])
+  tags$div(
+    tags$table(
+      tags$tr(
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B médias ='
+        ),
+        tags$td(b_mean)
+      ),
+      tags$tr(
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B medianas ='
+        ),
+        tags$td(b_mediam)
+      ),
+      tags$tr(
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B desvios-padrões ='
+        ),
+        tags$td(b_sd)
+      )
+    )
+  )
+}

@@ -26,18 +26,24 @@ b_results <- function(mat) {
   tags$div(
     tags$table(
       tags$tr(
-        tags$td(style = 'text-align: right;padding-right: 5px;',
-                'B médias ='),
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B médias ='
+        ),
         tags$td(b_mean)
       ),
       tags$tr(
-        tags$td(style = 'text-align: right;padding-right: 5px;',
-                'B medianas ='),
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B medianas ='
+        ),
         tags$td(b_mediam)
       ),
       tags$tr(
-        tags$td(style = 'text-align: right;padding-right: 5px;',
-                'B desvios-padrões ='),
+        tags$td(
+          style = 'text-align: right;padding-right: 5px;',
+          'B desvios-padrões ='
+        ),
         tags$td(b_sd)
       )
     )
@@ -63,7 +69,7 @@ ui <- fluidPage(
     sidebarPanel(
       textInput('vec', h4('Vetor'), "16,145,23,42,10"),
       helpText('(separado por vírgulas)'),
-      numericInput('B', h4('Reamostragem'), value = '6'),
+      numericInput('B', h4('Reamostragem'), value = '6')
     ),
     
     mainPanel(
@@ -76,10 +82,12 @@ ui <- fluidPage(
     tags$br(),
     tags$small(
       icon('code-branch'),
-      a('github.com/Durfan/ufsj-estatistica',
-        href='https://github.com/Durfan/ufsj-estatistica')
+      a(
+        'github.com/Durfan/ufsj-estatistica',
+        href='https://github.com/Durfan/ufsj-estatistica'
+        )
     ),
-    style='margin:10px 10px 20px 10px;position: fixed;bottom: 0;'
+    style='margin:10px 10px 20px 10px'
   )
 )
 

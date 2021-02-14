@@ -6,6 +6,8 @@
 
 ### Resolução
 
+[pcecilio.shinyapps.io/atvividade01/](https://pcecilio.shinyapps.io/atvividade01/)
+
 #### Questão 1
 
 [pcecilio.shinyapps.io/atv1a/](https://pcecilio.shinyapps.io/atv1a/)
