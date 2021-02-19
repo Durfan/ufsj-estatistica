@@ -91,11 +91,12 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      numericInput('N', h4('População'), value = '211'),
-      numericInput('n', h4('Amostra'), value = '15'),
+      numericInput('N', 'População', value = '211'),
+      sliderInput('n', "Amostra",
+        min = 0, max = 211, value = 15, ticks = F),
       radioButtons(
         'plano',
-        h4('Plano de Amostragem'),
+        'Plano de Amostragem',
         choices = list(
           'Aleatória Simples' = 1, 
           'Sistemática' = 2, 
@@ -105,8 +106,16 @@ ui <- fluidPage(
       conditionalPanel(
         condition = 'input.plano == 3',
         numericInput(
+          'e',
+          'Estratos',
+          min = 2,
+          max = 100,
+          value = '2'
+        ),
+        uiOutput('estratos'),
+        numericInput(
           'var',
-          h4('Variável Estratificadora'),
+          'Variável Estratificadora',
           value = '30'
         ),
         helpText('Porcentagem sobre a populção para um estrato.')
@@ -131,15 +140,47 @@ ui <- fluidPage(
   )
 )
 
-server <- function(input, output) {
+server <- function(input, output, session) {
+  
+  dataEstrat <- reactive({
+    vec <- c()
+    for(i in 1:input$e) {
+      slider <- input[[paste0('N',i)]]
+      vec <- c(vec, slider)
+    }
+    vec
+  })
+  
+  observe({
+    updateSliderInput(session, 'n', max = input$N)
+  })
+  
+  output$estratos <- renderUI({
+    sliders <- list()
+    val <- round(100/input$e)
+    for(i in 1:input$e) {
+      slider <- sliderInput(
+        paste0('N', i),
+        #HTML('N','<sub>',i,'</sub>'),
+        NULL,
+        1, val, val,
+        ticks = F)
+      sliders[[i]] <- slider
+    }
+    sliders
+  })
 
   output$amostra <- renderUI({
     if (input$plano == 1)
       simples(input$N, input$n)
     else if (input$plano == 2)
       sistematica(input$N, input$n)
-    else if (input$plano == 3)
-      estratificada(input$N, input$n, input$var)
+    else if (input$plano == 3) {
+      div(
+        HTML(dataEstrat()),
+        estratificada(input$N, input$n, input$var)
+      )
+    }
     else
       HTML('COMO?????')
   })

@@ -67,9 +67,9 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      textInput('vec', h4('Vetor'), "16,145,23,42,10"),
+      textInput('vec', 'Vetor', "16,145,23,42,10"),
       helpText('(separado por vírgulas)'),
-      numericInput('B', h4('Reamostragem'), value = '6')
+      numericInput('B', 'Reamostragem', value = '6')
     ),
     
     mainPanel(

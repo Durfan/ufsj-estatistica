@@ -33,7 +33,7 @@ ui <- navbarPage(
           condition = 'input.plano == 3',
           numericInput(
             'var',
-            h4('Variável Estratificadora'),
+            'Variável Estratificadora',
             value = '30'
           ),
         helpText('Porcentagem sobre a populção para um estrato.')
@@ -56,9 +56,9 @@ ui <- navbarPage(
 
     sidebarLayout(
       sidebarPanel(
-        textInput('vec', h4('Vetor'), "16,145,23,42,10"),
+        textInput('vec', 'Vetor', "16,145,23,42,10"),
         helpText('(separado por vírgulas)'),
-        numericInput('B', h4('Reamostragem'), value = '6')
+        numericInput('B', 'Reamostragem', value = '6')
       ),
      
       mainPanel(
