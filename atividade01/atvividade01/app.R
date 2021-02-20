@@ -31,12 +31,9 @@ ui <- navbarPage(
         ),
         conditionalPanel(
           condition = 'input.plano == 3',
-          numericInput(
-            'var',
-            'Variável Estratificadora',
-            value = '30'
-          ),
-        helpText('Porcentagem sobre a populção para um estrato.')
+          textInput('e', 'Estratos', '148,63'),
+          helpText('Elementos da população para cada estrato.
+                   (Separados por vírgulas)')
         )
       ),
      
@@ -56,14 +53,15 @@ ui <- navbarPage(
 
     sidebarLayout(
       sidebarPanel(
-        textInput('vec', 'Vetor', "16,145,23,42,10"),
+        textInput('vec', 'Vetor', "16,145.4,23.2,42,10"),
         helpText('(separado por vírgulas)'),
         numericInput('B', 'Reamostragem', value = '6')
       ),
      
       mainPanel(
         uiOutput('reamostragem'),
-        htmlOutput('result')
+        htmlOutput('result'),
+        plotOutput('plothis')
       )
     )
   ),
@@ -84,8 +82,7 @@ ui <- navbarPage(
 server <- function(input, output, session) {
   
   observe({
-    val <- input$N
-    updateSliderInput(session, 'n', max = val)
+    updateSliderInput(session, 'n', max = input$N)
   })
   
   dataInput <- reactive({
@@ -98,7 +95,7 @@ server <- function(input, output, session) {
     else if (input$plano == 2)
       sistematica(input$N, input$n)
     else if (input$plano == 3)
-      estratificada(input$N, input$n, input$var)
+      estratificada(input$N, input$n, input$e)
     else
       HTML('COMO?????')
   })
@@ -112,6 +109,10 @@ server <- function(input, output, session) {
   
   output$result <- renderUI({
     b_results(dataInput())
+  })
+  
+  output$plothis <- renderPlot({
+    matbox(dataInput())
   })
   
 }

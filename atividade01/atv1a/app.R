@@ -1,18 +1,33 @@
 # Deploy feito em https://pcecilio.shinyapps.io/atv1a/
 
-UPictogram <-function(N, amostra, var=NULL) {
+UPictogram <- function(N, amostra) {
   # Ugly but Works
-  estratificado <- !is.null(var)
-  pic <- c('\U25A1','\U25A0','\U2606','\U2605')
+  pic <- c('\U25A1','\U25A0')
   graph <- rep(pic[1], N)
-  if (estratificado)
-    graph[(N-var):N] <- pic[3]
   for(i in 1:length(amostra)) {
     idx = amostra[i]
-    if (estratificado && idx > (N-var))
-      graph[idx] <- pic[4]
-    else
+    graph[idx] <- pic[2]
+  }
+  graph
+}
+
+UEPictogram <- function(N, amostras, pos_idx) {
+  # Ugly but Works
+  pic <- c('\U25A1','\U25A0','\U2606','\U2605')
+  graph <- rep(pic[1], N)
+  for(i in 1:length(pos_idx)) {
+    first <- pos_idx[[i]][1]
+    last <- pos_idx[[i]][2]
+    if (i%%2 == 0)
+      graph[first:last] <- pic[3]
+  }
+  amostra <- unlist(amostras)
+  for(i in 1:length(amostra)) {
+    idx = amostra[i]
+    if (graph[idx] == pic[1])
       graph[idx] <- pic[2]
+    else
+      graph[idx] <- pic[4]
   }
   graph
 }
@@ -44,35 +59,47 @@ sistematica <- function(N, n) {
   )
 }
 
-estratificada <- function(N, n, var) {
-  var <- round((N/100) * var)
-  Na <- N - var
-  na <- round((n * Na) / N)
-  nb <- round((n * var) / N)
-  eq1 <-sprintf('$$N_{A} = %d, \\; N_{B} = %d$$',Na,var)
-  eq2 <-sprintf('$$n_{A} = \\frac{nN_{A}}{N} = 
-                \\frac{%d \\cdot %d}{%d} 
-                \\approx %d$$',n,Na,N,na)
-  eq3 <-sprintf('$$n_{B} = \\frac{nN_{B}}{N} = 
-                \\frac{%d \\cdot %d}{%d} 
-                \\approx %d$$',n,var,N,nb)
-  amostra_A <- sort(sample(1:Na, na, replace = F))
-  amostra_B <- sort(sample(Na:N, nb, replace = F))
-  amostra <- c(amostra_A,amostra_B)
+estratificada <- function(N, n, e) {
+  Nx <- as.numeric(unlist(strsplit(e,",")))
+  size <- length(Nx)
+  if (sum(Nx) != N) {
+    error <- tags$div(
+      p('A soma dos estratos não é igual a população.',
+        style="color:red"))
+    return(error)
+  }
+  
+  nx_estrat <- c()
+  for(i in 1:size)
+    nx_estrat <- c(nx_estrat, round((n * Nx[i]) / N))
+  
+  amostras <- list()
+  start <- 0
+  pos_idx <- list()
+  for(i in 1:size) {
+    end <- start + Nx[i]
+    pos_idx[[i]] <- c((start+1),end)
+    sample <- sample((start+1):end, nx_estrat[i], replace = F)
+    sample <- sort(sample)
+    amostras[[i]] <- sample
+    start <- end
+  }
+  #pos_idx <<- pos_idx
+
+  eq <- sprintf('$$n_{i} = \\frac{nN_{i}}{N}$$')
+
   tags$div(
     h3('Amostragem Estratificada'),
-    withMathJax(eq1),
-    withMathJax(eq2),
-    withMathJax(eq3),
+    withMathJax(eq),
+    p(HTML(
+      paste0('N = {',toString(Nx),'}','<br>'),
+      paste0('n = {',toString(nx_estrat),'}','<br>'))),
     hr(),
-    h4('Estrato A'),
-    p(toString(amostra_A)),
-    h4('Estrato B'),
-    p(toString(amostra_B)),
-    p(HTML(UPictogram(N,amostra,var)))
+    HTML(
+      paste('<p>',sapply(amostras, toString),'</p>')),
+    p(HTML(UEPictogram(N,amostras,pos_idx)))
   )
 }
-
 
 ui <- fluidPage(
 
@@ -105,20 +132,9 @@ ui <- fluidPage(
       ),
       conditionalPanel(
         condition = 'input.plano == 3',
-        numericInput(
-          'e',
-          'Estratos',
-          min = 2,
-          max = 100,
-          value = '2'
-        ),
-        uiOutput('estratos'),
-        numericInput(
-          'var',
-          'Variável Estratificadora',
-          value = '30'
-        ),
-        helpText('Porcentagem sobre a populção para um estrato.')
+        textInput('e', 'Estratos', '148,63'),
+        helpText('Elementos da população para cada estrato.
+                 (Separados por vírgulas)')
       )
     ),
 
@@ -142,32 +158,8 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  dataEstrat <- reactive({
-    vec <- c()
-    for(i in 1:input$e) {
-      slider <- input[[paste0('N',i)]]
-      vec <- c(vec, slider)
-    }
-    vec
-  })
-  
   observe({
     updateSliderInput(session, 'n', max = input$N)
-  })
-  
-  output$estratos <- renderUI({
-    sliders <- list()
-    val <- round(100/input$e)
-    for(i in 1:input$e) {
-      slider <- sliderInput(
-        paste0('N', i),
-        #HTML('N','<sub>',i,'</sub>'),
-        NULL,
-        1, val, val,
-        ticks = F)
-      sliders[[i]] <- slider
-    }
-    sliders
   })
 
   output$amostra <- renderUI({
@@ -175,12 +167,8 @@ server <- function(input, output, session) {
       simples(input$N, input$n)
     else if (input$plano == 2)
       sistematica(input$N, input$n)
-    else if (input$plano == 3) {
-      div(
-        HTML(dataEstrat()),
-        estratificada(input$N, input$n, input$var)
-      )
-    }
+    else if (input$plano == 3)
+      estratificada(input$N, input$n, input$e)
     else
       HTML('COMO?????')
   })

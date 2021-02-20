@@ -28,26 +28,40 @@ b_results <- function(mat) {
       tags$tr(
         tags$td(
           style = 'text-align: right;padding-right: 5px;',
-          'B médias ='
+          'B médias =',
+          icon('square', style = 'color:blue;')
         ),
         tags$td(b_mean)
       ),
       tags$tr(
         tags$td(
           style = 'text-align: right;padding-right: 5px;',
-          'B medianas ='
+          'B medianas =',
+          icon('square', style = 'color:red;')
         ),
         tags$td(b_mediam)
       ),
       tags$tr(
         tags$td(
           style = 'text-align: right;padding-right: 5px;',
-          'B desvios-padrões ='
+          'B desvios-padrões =',
+          icon('square', style = 'color:green;')
         ),
         tags$td(b_sd)
       )
     )
   )
+}
+
+matbox <- function(mat) {
+  b_mean <- mean(mat[,ncol(mat) - 2])
+  b_mediam <- median(mat[,ncol(mat) - 1])
+  b_sd <- sd(mat[,ncol(mat)])
+  data <- mat[,(ncol(mat)-2):ncol(mat)]
+  boxplot.matrix(data, use.cols = F)
+  abline(h=b_mean, col='blue')
+  abline(h=b_mediam, col='red')
+  abline(h=b_sd, col='green')
 }
 
 ui <- fluidPage(
@@ -67,14 +81,15 @@ ui <- fluidPage(
   
   sidebarLayout(
     sidebarPanel(
-      textInput('vec', 'Vetor', "16,145,23,42,10"),
+      textInput('vec', 'Vetor', "16,145.4,23.2,42,10"),
       helpText('(separado por vírgulas)'),
       numericInput('B', 'Reamostragem', value = '6')
     ),
     
     mainPanel(
       uiOutput('reamostragem'),
-      htmlOutput('result')
+      htmlOutput('result'),
+      plotOutput('plothis')
     )
   ),
   fluidRow(
@@ -106,6 +121,10 @@ server <- function(input, output) {
   
   output$result <- renderUI({
     b_results(dataInput())
+  })
+  
+  output$plothis <- renderPlot({
+    matbox(dataInput())
   })
   
 }
