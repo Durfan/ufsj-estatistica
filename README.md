@@ -18,7 +18,10 @@
 
 ## Atividade 2
 
-:construction: TODO
+||||||
+|:-:|:-:|:-:|:-:|:-:|
+|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_d1.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_d1.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_d2.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_d2.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_d3.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_d3.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_d4.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_d4.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_d5.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_d5.pdf)|
+|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_c1.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_c1.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_c2.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_c2.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_c3.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_c3.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_c4.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_c4.pdf)|[![](https://github.com/Durfan/ufsj-estatistica/blob/master/docs/tb_atv2/prob_c5.jpg?raw=True)](https://github.com/Durfan/ufsj-estatistica/blob/master/atividade02/prob_c5.pdf)|
 
 ## Atividade 3
 
