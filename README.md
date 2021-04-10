@@ -29,4 +29,6 @@
 
 [Wiki Atividade 3](https://github.com/Durfan/ufsj-estatistica/wiki/Atividade-Individual-3)
 
+### Resolução
+
 [pcecilio.shinyapps.io/atv3/](https://pcecilio.shinyapps.io/atv3/)
