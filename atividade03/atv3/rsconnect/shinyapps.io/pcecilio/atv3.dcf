@@ -1,0 +1,12 @@
+name: atv3
+title: atv3
+username:
+account: pcecilio
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3941864
+bundleId: 4455487
+url: https://pcecilio.shinyapps.io/atv3/
+when: 1618089297.73869
+asMultiple: FALSE
+asStatic: FALSE
