@@ -1,0 +1,13 @@
+name: atv2b
+title: atv2b
+username:
+account: pcecilio
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4350474
+bundleId: 4785354
+url: https://pcecilio.shinyapps.io/atv2b/
+when: 1625389979.44574
+lastSyncTime: 1625389979.44577
+asMultiple: FALSE
+asStatic: FALSE

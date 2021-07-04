@@ -93,6 +93,27 @@ ggplot(df_zt, aes(x=as.numeric(x), y=value, fill=variable)) +
     "s = 4",
     "s = 5"))
 
+# Distribuição Exponencial
+x <- seq(0, 5, by = .1)
+df_exp <- data.frame(
+  x = x,
+  c1 = dexp(x, rate = .5),
+  c2 = dexp(x, rate = 1),
+  c3 = dexp(x, rate = 1.5))
+df_exp <- melt(df_exp, id.vars='x')
+ggplot(df_exp, aes(x=as.numeric(x), y=value, fill=variable)) +
+  geom_line(aes(color = variable, linetype = variable)) +
+  theme(legend.position = c(0.9, 0.75), legend.title = element_blank()) +
+  labs(x = NULL, y = "Função Densidade de Probabilidade") +
+  scale_color_discrete(labels = c(
+    expression(paste(lambda," = 0.5")),
+    expression(paste(lambda," =  1  ")),
+    expression(paste(lambda," = 1.5")))) +
+  scale_linetype_discrete(labels = c(
+    expression(paste(lambda," = 0.5")),
+    expression(paste(lambda," =  1  ")),
+    expression(paste(lambda," = 1.5"))))
+
 # Distribuição de Cauchy
 x <- seq(-5, 5, by = .1)
 df_ct <- data.frame(
